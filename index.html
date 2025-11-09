@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Country Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><text x="16" y="20" font-size="28" text-anchor="middle" dominant-baseline="middle">🌎</text></svg>'>
+
+    <style>
+        .card-img-top {
+            height: 180px;       
+            object-fit: cover;   
+            object-fit: contain;
+        }
+        .card-img-top:hover {
+            transform: translateY(-5px);
+        }
+        .card {
+            height: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 15px;  
+            background: linear-gradient(135deg, #fdfcfb, #e0ddda);     
+        }
+        .card:hover {
+            transform: translateY(5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        #randomBtn {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            border: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        #randomBtn:hover {
+            filter: brightness(1.1);
+        }
+        h1 {
+            font-weight: bold;
+            background-color: rgb(213, 226, 226);
+            border-radius: 10px;
+            display: inline-block;
+            padding: 10px 20px; 
+        }
+        h1:hover {
+            background-color: aliceblue;
+        }
+        .wiki-entry {
+            display: inline-block;
+            width: fit-content;
+            margin-top: 10px;
+            padding: 6px 12px;
+            border-radius: 10px;
+            background-color: #bde5e7;
+            color: #000000;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            align-self: center;
+        }
+        .wiki-entry:hover {
+            background-color: #4facfe;
+            transform: translateY(2px);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body class="text-bg" style="background: rgb(213, 226, 226);">
+
+<div class="container py-5 text-center">
+    <h1 class="mb-4" style="font:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">🌍 Random Countries Picker 🌍</h1>
+    <br><button id="randomBtn" class="btn btn-primary mb-4">Pick Random Countries!</button>
+
+    <div id="countriesContainer" class="card-text"> <p class="text-body-secondary text-decoration-underline" id="placeholder">Click the button to get started...</p></div>
+    <div class="row justify-content-center">
+        <div id="countryInfo" class="col-md-4 mb-4" style="max-width: 500px; display: none;">
+            <img id="flag" class="card-img-top" alt="Country Flag">
+            <div class="card h-75">
+                <h3 id="name" class="card-title"></h3>
+                <p id="capital" class="card-text"></p>
+                <p id="region" class="card-text"></p>
+                <p id="population" class="card-text"></p>
+                <p id="currency" class="card-text"></p>
+                <p id="demonym" class="card-text"></p>
+                <a id="wiki" class="wiki-entry" target="_blank" href="#">Wiki Entry</a>
+            </div>
+        </div>
+        <div id="countryInfo1" class="col-md-4 mb-4" style="max-width: 500px; display: none;">
+            <img id="flag1" class="card-img-top" alt="Country Flag">
+            <div class="card h-75">
+                <h3 id="name1" class="card-title"></h3>
+                <p id="capital1" class="card-text"></p>
+                <p id="region1" class="card-text"></p>
+                <p id="population1" class="card-text"></p>
+                <p id="currency1" class="card-text"></p>
+                <p id="demonym1" class="card-text"></p>
+                <a id="wiki1" class="wiki-entry" target="_blank" href="#">Wiki Entry</a>
+            </div>
+        </div>
+        <div id="countryInfo2" class="col-md-4 mb-4" style="max-width: 500px; display: none;">
+            <img id="flag2" class="card-img-top" alt="Country Flag">
+            <div class="card h-75">
+                <h3 id="name2" class="card-title"></h3>
+                <p id="capital2" class="card-text"></p>
+                <p id="region2" class="card-text"></p>
+                <p id="population2" class="card-text"></p>
+                <p id="currency2" class="card-text"></p>
+                <p id="demonym2" class="card-text"></p>
+                <a id="wiki2" class="wiki-entry" target="_blank" href="#">Wiki Entry</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4" style="text-align: left;">
+        <small><br><br>Data sourced from <a href="https://restcountries.com/" target="_blank" rel="noopener noreferrer">REST Countries API</a></small>
+        <small><br>Developed by Reese Fairchild</small>
+</div>
+
+<script>
+async function getRandomCountry() {
+    try {
+        // Fetch all countries data
+        const response = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,region,population,flags,currencies,demonyms');
+        if (!response.ok) throw new Error('Network response was not ok');
+        //Get random countries
+        const countries = await response.json();
+        const randomIndex = Math.floor(Math.random() * countries.length);
+        let randomIndex1 = randomIndex, randomIndex2 = randomIndex;
+        while (randomIndex1 == randomIndex) {
+            randomIndex1 = Math.floor(Math.random() * countries.length);
+        }
+        while (randomIndex2 == randomIndex || randomIndex2 == randomIndex1) {
+            randomIndex2 = Math.floor(Math.random() * countries.length);
+        }
+        const country = countries[randomIndex];
+        const country1 = countries[randomIndex1];
+        const country2 = countries[randomIndex2];
+
+        //Get currency info
+        let currencyText = 'N/A';
+        if (country.currencies) {
+            const currencyCodes = Object.keys(country.currencies);
+            if (currencyCodes.length > 0) {
+                const cur = country.currencies[currencyCodes[0]];
+                currencyText = `${cur.name} (${currencyCodes[0]})`;
+            }
+        }
+        let currencyText1 = 'N/A';
+        if (country1.currencies) {
+            const currencyCodes = Object.keys(country1.currencies);
+            if (currencyCodes.length > 0) {
+                const cur = country1.currencies[currencyCodes[0]];
+                currencyText1 = `${cur.name} (${currencyCodes[0]})`;
+            }
+        }
+        let currencyText2 = 'N/A';
+        if (country2.currencies) {
+            const currencyCodes = Object.keys(country2.currencies);
+            if (currencyCodes.length > 0) {
+                const cur = country2.currencies[currencyCodes[0]];
+                currencyText2 = `${cur.name} (${currencyCodes[0]})`;
+            }
+        }
+
+        document.getElementById('placeholder').style.display = 'none';
+
+        // Display country info
+        document.getElementById('countryInfo').style.display = 'block';
+        document.getElementById('flag').src = country.flags.png;
+        document.getElementById('name').textContent = country.name.common;
+        document.getElementById('capital').textContent = `Capital: ${country.capital ? country.capital[0] : 'N/A'}`;
+        document.getElementById('region').textContent = `Region: ${country.region}`;
+        document.getElementById('population').textContent = `Population: ${country.population.toLocaleString()}`;
+        document.getElementById('currency').textContent = `Currency: ${currencyText}`;
+        document.getElementById('demonym').textContent = `Demonym: ${country.demonyms.eng.m}`;
+        document.getElementById('wiki').href = getWikiURL(country);
+        // Display country info
+        document.getElementById('countryInfo1').style.display = 'block';
+        document.getElementById('flag1').src = country1.flags.png;
+        document.getElementById('name1').textContent = country1.name.common;
+        document.getElementById('capital1').textContent = `Capital: ${country1.capital ? country1.capital[0] : 'N/A'}`;
+        document.getElementById('region1').textContent = `Region: ${country1.region}`;
+        document.getElementById('population1').textContent = `Population: ${country1.population.toLocaleString()}`;
+        document.getElementById('currency1').textContent = `Currency: ${currencyText1}`;
+        document.getElementById('demonym1').textContent = `Demonym: ${country1.demonyms.eng.m}`;
+        document.getElementById('wiki1').href = getWikiURL(country1);
+        // Display country info
+        document.getElementById('countryInfo2').style.display = 'block';
+        document.getElementById('flag2').src = country2.flags.png;
+        document.getElementById('name2').textContent = country2.name.common;
+        document.getElementById('capital2').textContent = `Capital: ${country2.capital ? country2.capital[0] : 'N/A'}`;
+        document.getElementById('region2').textContent = `Region: ${country2.region}`;
+        document.getElementById('population2').textContent = `Population: ${country2.population.toLocaleString()}`;
+        document.getElementById('currency2').textContent = `Currency: ${currencyText2}`;
+        document.getElementById('demonym2').textContent = `Demonym: ${country2.demonyms.eng.m}`;
+        document.getElementById('wiki2').href = getWikiURL(country2);
+    } catch (error) {
+        console.error('Error fetching countries:', error);
+    }
+}
+
+function getWikiURL(country) {
+    const name = country.name.common.replace(/ /g, "_");
+    return `https://en.wikipedia.org/wiki/${name}`;
+}
+
+document.getElementById('randomBtn').addEventListener('click', getRandomCountry);
+</script>
+
+</body>
+</html>
+
