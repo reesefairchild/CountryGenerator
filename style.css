@@ -1,0 +1,89 @@
+
+body {
+    background: linear-gradient(135deg, #71cdec, #d5aa45);
+    min-height: 100vh;
+    font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+#randomBtn {
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    border: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+#randomBtn:hover {
+    filter: brightness(1.1);
+}
+
+.card {
+    height: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 15px;  
+    background: linear-gradient(135deg, #fdfcfb, #e0ddda);     
+}
+.card:hover {
+    transform: translateY(5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.card-img-top {
+    border-radius: 16px;
+    margin-bottom: 12px;
+    height: 180px;       
+    object-fit: cover;   
+    object-fit: contain;
+}
+
+.card-img-top:hover {
+    transform: translateY(-5px);
+}
+
+
+h1 {
+    font-family: "Baloo 2", cursive;
+    font-weight: 700;
+    color: #333;
+    border-color: #000000ae;
+    border-style:solid;
+    border-radius: 20px;
+    width: fit-content;
+    height: fit-content;
+    margin: 0 auto;
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.card-text {
+    font-size: 1.05rem;
+    margin: 3px 0;
+}
+
+
+.wiki-entry {
+    display: inline-block;
+    width: fit-content;
+    margin-top: 10px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    background-color: #bde5e7;
+    color: #000000;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    align-self: center;
+}
+.wiki-entry:hover {
+    background-color: #4facfe;
+    transform: translateY(2px);
+    text-decoration: none;
+}
+
+#placeholder {
+    font-style: italic;
+    color: #555;
+}
+
